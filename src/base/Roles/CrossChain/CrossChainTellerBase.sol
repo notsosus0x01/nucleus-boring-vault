@@ -49,10 +49,10 @@ abstract contract CrossChainTellerBase is TellerWithMultiAssetSupport {
         if (!isSupported[depositAsset]) {
             revert TellerWithMultiAssetSupport__AssetNotSupported();
         }
-
+     // This changes the function to run properly without reverting everytime, the _afterPublicDeposit should be called after bridge function.
         uint256 shareAmount = _erc20Deposit(depositAsset, depositAmount, minimumMint, msg.sender);
-        _afterPublicDeposit(msg.sender, depositAsset, depositAmount, shareAmount, shareLockPeriod);
         bridge(shareAmount, data);
+        _afterPublicDeposit(msg.sender, depositAsset, depositAmount, shareAmount, shareLockPeriod);
     }
 
     /**
